@@ -28,21 +28,23 @@ var barPath = createYearBar(startYear, endYear);
 
 
 function createYearBar(yearStart, yearEnd) {
+    var allComponents = [];
+    var barHeight = 30;
+    var barYOffset = view.center.y-barHeight/2;
+
     var yearsToDraw = (yearEnd - yearStart)+1   ;
     // Basebar
     var topLeftX = view.center.x * 0.2;
     var topRightX = view.center.x * 1.8;
     var barSize = topRightX - topLeftX;
     var perYear = (barSize) / yearsToDraw;
-    var barYOffset = 20;
     var topLeft = new Point(topLeftX, barYOffset);
-    var barHeight = 100;
     var size = new Size(barSize, barHeight);
     var rect = new Rectangle(topLeft, size);
     var barPath = new Path.Rectangle(rect);
     barPath.strokeColor = 'black';
     barPath.fillColor = 'black';
-
+    allComponents.push(barPath);
     var heightMargin = 3;
     var widthMargin = 4;
     perYear = (barSize-widthMargin) / yearsToDraw - widthMargin;
@@ -59,13 +61,26 @@ function createYearBar(yearStart, yearEnd) {
         yearPath.onMouseLeave = function () {
             this.fillColor = 'yellow';
         };
+        allComponents.push(yearPath);
+        var text = new PointText(new Point(topLeftChild.x+perYear/2, view.center.y));
+        text.content = i;
+        text.style = {
+            fontFamily: 'Courier New',
+            fontWeight: 'bold',
+            fontSize: 8,
+            fillColor: 'blue',
+            justification: 'center'
+        };
+        allComponents.push(text);
         smallRectangleStart+=rectangleChild.width+widthMargin;
     }
 
-    return barPath;
+    return allComponents;
 }
 
 function onResize(event) {
-    barPath.remove();
+    barPath.forEach(function (entry) {
+        entry.remove();
+    });
     barPath = createYearBar(startYear, endYear);
 }
