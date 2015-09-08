@@ -32,7 +32,7 @@ function createYearBar(yearStart, yearEnd) {
     var barHeight = 30;
     var barYOffset = view.center.y-barHeight/2;
 
-    var yearsToDraw = (yearEnd - yearStart)+1   ;
+    var yearsToDraw = (yearEnd - yearStart)+1;
     // Basebar
     var topLeftX = view.center.x * 0.2;
     var topRightX = view.center.x * 1.8;
@@ -45,8 +45,8 @@ function createYearBar(yearStart, yearEnd) {
     barPath.strokeColor = 'black';
     barPath.fillColor = 'black';
     allComponents.push(barPath);
-    var heightMargin = 3;
-    var widthMargin = 4;
+    var heightMargin = 2;
+    var widthMargin = 1;
     perYear = (barSize-widthMargin) / yearsToDraw - widthMargin;
     var smallRectangleStart = topLeftX + widthMargin;
     for (var i = yearStart; i <= yearEnd; i++) {
